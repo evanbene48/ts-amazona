@@ -13,12 +13,16 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
+import HomePage from './pages/HomePage.tsx'
+import ProductPage from './pages/ProductPage.tsx'
 
 //this is also from the website:
 // https://reactrouter.com/en/main/routers/picking-a-router
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
+      <Route index={true} element={<HomePage />} />
+      <Route path="product/:slug" element={<ProductPage />} />
       {/* ... etc. */}
     </Route>
   )
