@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 import App from './App.tsx'
 import './index.css'
-
 //*this import is from the website:
 // https://reactrouter.com/en/main/routers/picking-a-router
 import {
@@ -15,6 +14,12 @@ import {
 } from 'react-router-dom'
 import HomePage from './pages/HomePage.tsx'
 import ProductPage from './pages/ProductPage.tsx'
+import axios from 'axios'
+
+axios.defaults.baseURL =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '/'
+
+console.log(process.env.NODE_ENV)
 
 //this is also from the website:
 // https://reactrouter.com/en/main/routers/picking-a-router
