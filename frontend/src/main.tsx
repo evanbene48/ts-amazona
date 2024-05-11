@@ -5,8 +5,27 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import App from './App.tsx'
 import './index.css'
 
+//*this import is from the website:
+// https://reactrouter.com/en/main/routers/picking-a-router
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from 'react-router-dom'
+
+//this is also from the website:
+// https://reactrouter.com/en/main/routers/picking-a-router
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<App />}>
+      {/* ... etc. */}
+    </Route>
+  )
+)
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 )

@@ -1,6 +1,6 @@
-import { Product } from './types/Product'
+import { ProductType } from './types/ProductType'
 
-export const sampleProducts: Product[] = [
+export const sampleProducts: ProductType[] = [
   {
     name: 'Nike Slim shirt',
     slug: 'nike-slim-shirt',
