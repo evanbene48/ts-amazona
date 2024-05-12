@@ -11,6 +11,7 @@ import MessageBox from '../components/MessageBox'
 //type
 import { ProductType } from '../types/ProductType'
 import ProductItem from '../components/ProductItem'
+import { Helmet } from 'react-helmet-async'
 
 type State = {
   products: ProductType[]
@@ -69,6 +70,9 @@ function HomePage() {
     <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <Row>
+      <Helmet>
+        <title>TS Amazona</title>
+      </Helmet>
       {products.map((product) => (
         <Col key={product.slug} sm={6} md={4} lg={3}>
           <ProductItem product={product} key={product.name + product.slug} />
