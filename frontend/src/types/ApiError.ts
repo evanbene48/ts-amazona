@@ -1,6 +1,7 @@
 export declare type ApiError = {
+
   message: string
-  response: {
+  response?: {
     data: {
       message: string
     }
