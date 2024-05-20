@@ -1,38 +1,38 @@
-import express, { Request, Response } from 'express'
-import { sampleProducts } from './data'
+import express from 'express'
 import cors from 'cors'
-import { ProductType } from './types/ProductType'
+import dotenv from 'dotenv'
+import mongoose from 'mongoose'
+import { productRouter } from './routers/productRouter'
+import { seedRouter } from './routers/seedRouter'
+
+//**this is for the index so they can access
+// .env file
+dotenv.config()
+
+const MONGODB_URI = process.env.MONGODB_URI
+mongoose.set('strictQuery', true)
+mongoose
+  .connect(MONGODB_URI!)
+  .then(() => {
+    console.log('connected to mongodb')
+  })
+  .catch(() => {
+    console.log('error mongodb')
+  })
 
 const app = express()
 
 //harus pake cors, kalau enggak gabisa
-// dipanggil
+// dipanggil frontend
 app.use(
   cors({
     credentials: true,
     origin: ['http://localhost:5173'],
   })
 )
-app.get('/api/products', (req: Request, res: Response) => {
-  res.json(sampleProducts)
-})
 
-app.get('/api/products/:slug', (req: Request, res: Response) => {
-  try {
-    const findBySlug = (x: ProductType) => {
-      return x.slug === req.params.slug
-    }
-    const data = sampleProducts.find(findBySlug)
-
-    if (!data) {
-      res.json('oh shit')
-    }
-
-    res.json(data)
-  } catch (error) {
-    console.log('oh no')
-  }
-})
+app.use('/api/products', productRouter)
+app.use('/api/seed', seedRouter)
 
 const PORT = 4000
 app.listen(PORT, () => {
