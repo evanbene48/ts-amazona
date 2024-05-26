@@ -73,8 +73,8 @@ function HomePage() {
 
   const { data: products, isLoading, isError, error } = useGetProductsQuery()
   // console.log(getProduct)
-  console.log(typeof error)
-  console.log(error)
+  // console.log(typeof error)
+  // console.log(error)
 
   return isLoading ? (
     <LoadingBox />
