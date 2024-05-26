@@ -14,9 +14,19 @@
 }
 
 .rating span {
-  color: #ffc000;
+  color: #ffc000 !important;
+  color: black;
 }
 
 img.large {
   max-width: 100%;
+}
+
+.anjing {
+  /* display: flex; */
+  /* align-content: space-between !important; */
+  /* flex-wrap: wrap !important; */
+  /* color: #ffc000 !important; */
+  /* border-style: solid; */
+  margin-left: auto;
 }
