@@ -17,7 +17,7 @@ function App() {
 
   useEffect(() => {
     document.body.setAttribute('data-bs-theme', mode);
-    console.log(mode);
+    // console.log(mode);
   }, [mode]);
 
   const switchModeHandler = () => {

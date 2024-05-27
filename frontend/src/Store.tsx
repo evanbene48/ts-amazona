@@ -1,10 +1,10 @@
-import React from 'react'
-import { Cart, CartItem } from './types/CartType'
+import React from 'react';
+import { Cart, CartItem } from './types/CartType';
 
 type AppState = {
-  mode: string
-  cart: Cart
-}
+  mode: string;
+  cart: Cart;
+};
 
 // console.log(window.matchMedia('(prefers-color-scheme: dark)'))
 // console.log(localStorage.getItem('mode'))
@@ -33,56 +33,59 @@ const initialState = {
     taxPrice: 0,
     totalPrice: 0,
   },
-}
+};
 
 type Action =
   | { type: 'SWITCH_MODE' }
-  | { type: 'CART_ADD_ITEM'; payload: CartItem }
+  | { type: 'CART_ADD_ITEM'; payload: CartItem };
 
 // function reducer(state: AppState, action: Action): AppState {
 function reducer(state: AppState, action: Action) {
   switch (action.type) {
     case 'SWITCH_MODE': {
-      return { ...state, mode: state.mode === 'dark' ? 'light' : 'dark' }
+      return { ...state, mode: state.mode === 'dark' ? 'light' : 'dark' };
     }
     // return { mode: state.mode === 'dark' ? 'light' : 'dark' }
     case 'CART_ADD_ITEM': {
-      const newItem = action.payload
+      const newItem = action.payload;
+      console.log(newItem);
+
       const existItem = state.cart.cartItems.find(
         (item: CartItem) => item._id === newItem._id
-      )
+      );
+
       const cartItems = existItem
         ? state.cart.cartItems.map((item: CartItem) =>
             item._id === existItem._id ? newItem : item
           )
-        : [...state.cart.cartItems, newItem]
+        : [...state.cart.cartItems, newItem];
 
-      localStorage.setItem('cartItems', JSON.stringify(cartItems))
+      localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
-      return { ...state, cart: { ...state.cart, cartItems } }
+      return { ...state, cart: { ...state.cart, cartItems } };
     }
     default:
-      return state
+      return state;
   }
 }
 
-const defaultDispatch: React.Dispatch<Action> = () => initialState
+const defaultDispatch: React.Dispatch<Action> = () => initialState;
 
 const Store = React.createContext({
   state: initialState,
   dispatch: defaultDispatch,
-})
+});
 
 function StoreProvider(props: React.PropsWithChildren<unknown>) {
   const [state, dispatch] = React.useReducer<React.Reducer<AppState, Action>>(
     reducer,
     initialState
-  )
+  );
 
   //Returning a component named "Provider" inside const "Store"
   // that we create
   // to provide the value = state and dispatch
-  return <Store.Provider value={{ state, dispatch }} {...props} />
+  return <Store.Provider value={{ state, dispatch }} {...props} />;
 }
 
-export { Store, StoreProvider }
+export { Store, StoreProvider };
