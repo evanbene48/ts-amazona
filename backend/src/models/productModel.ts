@@ -1,38 +1,38 @@
-import { modelOptions, prop, getModelForClass } from '@typegoose/typegoose'
+import { modelOptions, prop, getModelForClass } from '@typegoose/typegoose';
 
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Product {
-  public _id!: string
+  public _id?: string;
 
   @prop({ required: true })
-  public name!: string
+  public name!: string;
 
   @prop({ required: true, unique: true })
-  public slug!: string
+  public slug!: string;
 
   @prop({ required: true })
-  public image!: string
+  public image!: string;
 
   @prop({ required: true })
-  public brand!: string
+  public brand!: string;
 
   @prop({ required: true })
-  public category!: string
+  public category!: string;
 
   @prop({ required: true })
-  public description!: string
+  public description!: string;
 
   @prop({ required: true, default: 0 })
-  public price!: number
+  public price!: number;
 
   @prop({ required: true, default: 0 })
-  public countInStock!: number
+  public countInStock!: number;
 
   @prop({ required: true, default: 0 })
-  public rating!: number
+  public rating!: number;
 
   @prop({ required: true, default: 0 })
-  public numReviews!: number
+  public numReviews!: number;
 }
 
-export const ProductModel = getModelForClass(Product)
+export const ProductModel = getModelForClass(Product);
