@@ -30,3 +30,11 @@ img.large {
   /* border-style: solid; */
   margin-left: auto;
 }
+
+img.thumbnail {
+  height: 80px;
+}
+
+.small-container {
+  max-width: 600px;
+}

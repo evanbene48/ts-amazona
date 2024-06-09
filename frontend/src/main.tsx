@@ -19,6 +19,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { StoreProvider } from './Store.tsx';
 import CartPage from './pages/CartPage.tsx';
+import SigninPage from './pages/SignInPages.tsx';
 //after installing tan stack query we dont need axios
 // import axios from 'axios'
 
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
       <Route index={true} element={<HomePage />} />
       <Route path="product/:slug" element={<ProductPage />} />
       <Route path="cart" element={<CartPage />} />
+      <Route path="signin" element={<SigninPage />} />
       {/* ... etc. */}
     </Route>
   )

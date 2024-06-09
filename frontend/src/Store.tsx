@@ -1,9 +1,12 @@
 import React from 'react';
 import { Cart, CartItem } from './types/CartType';
+import { UserInfo } from './types/UserInfo';
 
+//types here
 type AppState = {
   mode: string;
   cart: Cart;
+  userInfo: UserInfo;
 };
 
 // console.log(window.matchMedia('(prefers-color-scheme: dark)'))
@@ -12,6 +15,9 @@ type AppState = {
 // if localstorage.getItem mode exist, use it
 // otherwise check the window.matchMedia
 const initialState = {
+  userInfo: localStorage.getItem('userInfo')
+    ? JSON.parse(localStorage.getItem('userInfo')!)
+    : null,
   mode: localStorage.getItem('mode')
     ? localStorage.getItem('mode')!
     : window.matchMedia &&
@@ -38,7 +44,9 @@ const initialState = {
 type Action =
   | { type: 'SWITCH_MODE' }
   | { type: 'CART_ADD_ITEM'; payload: CartItem }
-  | { type: 'CART_REMOVE_ITEM'; payload: CartItem };
+  | { type: 'CART_REMOVE_ITEM'; payload: CartItem }
+  | { type: 'USER_SIGNIN'; payload: UserInfo }
+  | { type: 'USER_SIGNOUT' };
 
 // function reducer(state: AppState, action: Action): AppState {
 function reducer(state: AppState, action: Action) {
@@ -74,7 +82,36 @@ function reducer(state: AppState, action: Action) {
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return { ...state, cart: { ...state.cart, cartItems } };
     }
-
+    // if user_signin, then update the userInfo
+    //   with the data received from API
+    case 'USER_SIGNIN': {
+      return { ...state, userInfo: action.payload };
+    }
+    case 'USER_SIGNOUT': {
+      return {
+        ...state,
+        mode:
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light',
+        cart: {
+          cartItems: [],
+          paymentMethod: 'PayPal',
+          shippingAddress: {
+            fullName: '',
+            address: '',
+            postalCode: '',
+            city: '',
+            country: '',
+          },
+          itemsPrice: 0,
+          shippingPrice: 0,
+          taxPrice: 0,
+          totalPrice: 0,
+        },
+      };
+    }
     default:
       return state;
   }
