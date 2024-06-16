@@ -47,7 +47,8 @@ type Action =
   | { type: 'CART_REMOVE_ITEM'; payload: CartItem }
   | { type: 'USER_SIGNIN'; payload: UserInfo }
   | { type: 'USER_SIGNOUT' }
-  | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress };
+  | { type: 'SAVE_SHIPPING_ADDRESS'; payload: ShippingAddress }
+  | { type: 'SAVE_PAYMENT_METHOD'; payload: string };
 
 // function reducer(state: AppState, action: Action): AppState {
 function reducer(state: AppState, action: Action) {
@@ -119,6 +120,14 @@ function reducer(state: AppState, action: Action) {
         cart: {
           ...state.cart,
           shippingAddress: action.payload,
+        },
+      };
+    case 'SAVE_PAYMENT_METHOD':
+      return {
+        ...state,
+        cart: {
+          ...state.cart,
+          paymentMethod: action.payload,
         },
       };
     default:

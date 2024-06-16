@@ -22,6 +22,7 @@ import CartPage from './pages/CartPage.tsx';
 import SigninPage from './pages/SignInPages.tsx';
 import SignupPage from './pages/SignUpPages.tsx';
 import ShippingAddressPage from './pages/ShippingAddressPage.tsx';
+import PaymentMethodPage from './pages/PaymentMethodPage.tsx';
 //after installing tan stack query we dont need axios
 // import axios from 'axios'
 
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
       <Route path="signin" element={<SigninPage />} />
       <Route path="signup" element={<SignupPage />} />
       <Route path="shipping" element={<ShippingAddressPage />} />
+      <Route path="payment" element={<PaymentMethodPage />} />
       {/* ... etc. */}
     </Route>
   )
