@@ -16,10 +16,11 @@ userRouter.post(
     }
     const user = await UserModel.findOne({ email: req.body.email });
     if (user) {
+      console.log(`sign in`);
       //compare a string against a hash
       // req.body.passwordnya itu string password
       // user.password itu udh hashed passwordnya
-      console.log('masuk sini');
+      // console.log('masuk sini');
       if (bcrypt.compareSync(req.body.password, user.password)) {
         res.json({
           _id: user._id,
