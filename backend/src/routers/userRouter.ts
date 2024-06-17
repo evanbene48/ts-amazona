@@ -9,14 +9,14 @@ export const userRouter = express.Router();
 userRouter.post(
   '/signin',
   asyncHandler(async (req: Request, res: Response) => {
-    console.log(req.body);
+    // console.log(req.body);
     if (!req.body.password || !req.body.email) {
       res.status(401).json({ message: 'Invalid email or password' });
       return;
     }
     const user = await UserModel.findOne({ email: req.body.email });
     if (user) {
-      console.log(`sign in`);
+      // console.log(`sign in`);
       //compare a string against a hash
       // req.body.passwordnya itu string password
       // user.password itu udh hashed passwordnya
@@ -44,7 +44,7 @@ userRouter.post(
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password),
     } as User);
-    console.log(user);
+    // console.log(user);
 
     res.json({
       _id: user._id,

@@ -23,6 +23,8 @@ import SigninPage from './pages/SignInPages.tsx';
 import SignupPage from './pages/SignUpPages.tsx';
 import ShippingAddressPage from './pages/ShippingAddressPage.tsx';
 import PaymentMethodPage from './pages/PaymentMethodPage.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
+import PlaceOrderPage from './pages/PlaceOrderPage.tsx';
 //after installing tan stack query we dont need axios
 // import axios from 'axios'
 
@@ -30,7 +32,7 @@ import PaymentMethodPage from './pages/PaymentMethodPage.tsx';
 // axios.defaults.baseURL =
 //   process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '/'
 
-console.log(process.env.NODE_ENV);
+// console.log(process.env.NODE_ENV);
 
 //this is also from the website:
 // https://reactrouter.com/en/main/routers/picking-a-router
@@ -42,8 +44,12 @@ const router = createBrowserRouter(
       <Route path="cart" element={<CartPage />} />
       <Route path="signin" element={<SigninPage />} />
       <Route path="signup" element={<SignupPage />} />
-      <Route path="shipping" element={<ShippingAddressPage />} />
-      <Route path="payment" element={<PaymentMethodPage />} />
+
+      <Route path="" element={<ProtectedRoute />}>
+        <Route path="shipping" element={<ShippingAddressPage />} />
+        <Route path="payment" element={<PaymentMethodPage />} />
+        <Route path="placeorder" element={<PlaceOrderPage />} />
+      </Route>
       {/* ... etc. */}
     </Route>
   )

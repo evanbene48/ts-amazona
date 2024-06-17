@@ -24,16 +24,17 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
   const { authorization } = req.headers;
   // penulisan di atas bisa jg ditulis dengan seperti ini
   //  const authorization = req.headers.authorization;
-  console.log(authorization);
+  // console.log('isAuth');
+  // console.log(authorization);
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // Bearer xxxxx
-    console.log(`token`);
-    console.log(token);
+    // console.log(`token`);
+    // console.log(token);
     const decode = jwt.verify(
       token,
       process.env.JWT_SECRET || 'somethingsecret'
     );
-    console.log(decode);
+    // console.log(decode);
     req.user = decode as {
       _id: string;
       name: string;

@@ -23,8 +23,8 @@ export default function SigninPage() {
 
   const { mutateAsync: signin, isPending } = useSigninMutation();
 
-  console.log(redirect);
-  console.log(userInfo);
+  // console.log(redirect);
+  // console.log(userInfo);
 
   const submitHandler = async (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -36,8 +36,8 @@ export default function SigninPage() {
       dispatch({ type: 'USER_SIGNIN', payload: data });
       localStorage.setItem('userInfo', JSON.stringify(data));
 
-      console.log(data);
-      console.log(redirect);
+      // console.log(data);
+      // console.log(redirect);
 
       navigate(redirect);
     } catch (err) {

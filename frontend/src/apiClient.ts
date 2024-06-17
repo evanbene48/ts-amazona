@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const apiClient = axios.create({
   baseURL:
@@ -6,6 +6,19 @@ const apiClient = axios.create({
   headers: {
     'Content-type': 'application/json',
   },
-})
+});
 
-export default apiClient
+apiClient.interceptors.request.use(
+  async (config) => {
+    if (localStorage.getItem('userInfo'))
+      config.headers.authorization = `Bearer ${
+        JSON.parse(localStorage.getItem('userInfo')!).token
+      }`;
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
+export default apiClient;
