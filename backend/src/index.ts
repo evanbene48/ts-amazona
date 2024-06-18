@@ -13,14 +13,19 @@ import path from 'path';
 // .env file
 dotenv.config();
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI =
+  process.env.MONGODB_URI ||
+  'mongodb+srv://user1:user1@cluster0.kuck5rh.mongodb.net/tsamazonadb?retryWrites=true&w=majority&appName=Cluster0';
+// console.log(MONGODB_URI);
 mongoose.set('strictQuery', true);
 mongoose
   .connect(MONGODB_URI!)
   .then(() => {
     console.log('connected to mongodb');
   })
-  .catch(() => {
+  .catch((err) => {
+    console.log(err);
+    // console.log('test');
     console.log('error mongodb');
   });
 
