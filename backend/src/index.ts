@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
@@ -7,6 +7,7 @@ import { seedRouter } from './routers/seedRouter';
 import { userRouter } from './routers/userRouter';
 import { orderRouter } from './routers/orderRouter';
 import { keyRouter } from './routers/keyRouter';
+import path from 'path';
 
 //**this is for the index so they can access
 // .env file
@@ -45,7 +46,20 @@ app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/keys', keyRouter);
 
-const PORT = 4000;
+// const PORT = 4000;
+// pathnya ../.. ini karena dia ada di dalam backend/src
+//sedangkan frontendnya ada di sebalik folder backend
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+app.get('*', (req: Request, res: Response) =>
+  //when the user enter the root of the project
+  // we send a file to the user in the browser
+  // and the file is the one we declare here '../../frontend/dist/index.html'
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'))
+);
+
+const PORT: number = parseInt((process.env.PORT || '4000') as string, 10);
+
 app.listen(PORT, () => {
   console.log(`server started at http://localhost:${PORT}`);
 });

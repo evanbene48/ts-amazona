@@ -17,6 +17,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { LinkContainer } from 'react-router-bootstrap';
+import { CartItem } from './types/CartType';
 
 function App() {
   const {
@@ -130,7 +131,10 @@ function App() {
                 <Link to="/cart" className="nav-link header-link p-0">
                   {
                     <span className="cart-badge">
-                      {cart.cartItems.reduce((a, c) => a + c.quantity, 0)}
+                      {cart.cartItems.reduce(
+                        (a: number, c: CartItem) => a + c.quantity,
+                        0
+                      )}
                     </span>
                   }
                   <svg

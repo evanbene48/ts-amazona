@@ -1,5 +1,3 @@
-import React from 'react'
-
 //* From here
 // type Props = {
 //   rating: number
@@ -23,9 +21,9 @@ function Rating({
   numReviews,
   caption,
 }: {
-  rating: number
-  numReviews?: number
-  caption?: string
+  rating: number;
+  numReviews?: number;
+  caption?: string;
 }) {
   return (
     <div className="rating">
@@ -92,7 +90,7 @@ function Rating({
         ''
       )}
     </div>
-  )
+  );
 }
 
-export default Rating
+export default Rating;

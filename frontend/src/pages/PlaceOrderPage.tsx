@@ -20,13 +20,10 @@ export default function PlaceOrderPage() {
   const round2 = (num: number) => Math.round(num * 100 + Number.EPSILON) / 100; // 123.2345 => 123.23
 
   cart.itemsPrice = round2(
-    cart.cartItems.reduce(
-      (a: CartItem['quantity'], c: CartItem['quantity']) => {
-        // console.log(a);
-        return a + c.quantity * c.price;
-      },
-      0
-    )
+    cart.cartItems.reduce((a: number, c: CartItem) => {
+      // console.log(a);
+      return a + c.quantity * c.price;
+    }, 0)
   );
 
   //shipping price = klo total harga itemnya > 100 = 0, <100 = 10$

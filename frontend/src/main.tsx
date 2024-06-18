@@ -65,7 +65,10 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <StoreProvider>
-      <PayPalScriptProvider options={{ clientId: 'sb' }} deferLoading={true}>
+      <PayPalScriptProvider
+        options={{ ['client-id']: 'sb' }}
+        deferLoading={true}
+      >
         <HelmetProvider>
           <QueryClientProvider client={queryClient}>
             <RouterProvider router={router} />
