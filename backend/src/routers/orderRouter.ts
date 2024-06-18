@@ -72,7 +72,7 @@ orderRouter.put(
   isAuth,
   asyncHandler(async (req: Request, res: Response) => {
     const order = await OrderModel.findById(req.params.id);
-    console.log(req.body);
+    // console.log(req.body);
     if (order) {
       order.isPaid = true;
       order.paidAt = new Date(Date.now());
