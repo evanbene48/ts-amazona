@@ -42,6 +42,7 @@ export const isAuth = (req: Request, res: Response, next: NextFunction) => {
       isAdmin: boolean;
       token: string;
     };
+    // console.log(`isAuth`);
     next();
   } else {
     res.status(401).json({ message: 'No Token' });

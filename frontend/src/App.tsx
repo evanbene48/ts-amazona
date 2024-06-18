@@ -69,9 +69,20 @@ function App() {
                   </Badge>
                 )}
               </a>
-              {/* Sign In */}
+
+              {/* Dropdown right top */}
               {userInfo ? (
-                <NavDropdown title={userInfo.name} id="basic-nav-dropdown">
+                <NavDropdown
+                  title={userInfo.name}
+                  id="basic-nav-dropdown"
+                  className="dropdown-menu-start"
+                >
+                  {/* Order History */}
+                  <LinkContainer to="/orderhistory">
+                    <NavDropdown.Item>Order History</NavDropdown.Item>
+                  </LinkContainer>
+
+                  {/* Sign Out button */}
                   <Link
                     className="dropdown-item"
                     to="#signout"
@@ -81,12 +92,12 @@ function App() {
                   </Link>
                 </NavDropdown>
               ) : (
+                // Sign In Button
                 <Link className="nav-link" to="/signin">
                   Sign In
                 </Link>
               )}
             </Nav>
-            {/* Nav End - 36 */}
           </Navbar>
         </div>
       </header>

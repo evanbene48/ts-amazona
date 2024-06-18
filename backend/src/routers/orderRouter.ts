@@ -6,11 +6,22 @@ import { OrderModel } from '../models/orderModel';
 
 export const orderRouter = express.Router();
 // /api/prodcuts
+
+orderRouter.get(
+  '/mine',
+  isAuth,
+  asyncHandler(async (req: Request, res: Response) => {
+    const orders = await OrderModel.find({ user: req.user._id });
+    res.json(orders);
+  })
+);
+
 orderRouter.get(
   // /api/orders/:id
   '/:id',
   isAuth,
   asyncHandler(async (req: Request, res: Response) => {
+    // console.log('order get id');
     const order = await OrderModel.findById(req.params.id);
     if (order) {
       const orderId = order.user!.toString();

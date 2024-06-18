@@ -13,6 +13,7 @@ import { ApiError } from '../types/ApiError';
 import { getError } from '../utils/util';
 import { toast } from 'react-toastify';
 import {
+  DISPATCH_ACTION,
   PayPalButtons,
   PayPalButtonsComponentProps,
   SCRIPT_LOADING_STATE,
@@ -50,14 +51,14 @@ export default function OrderPage() {
     if (paypalConfig && paypalConfig.clientId) {
       const loadPaypalScript = async () => {
         paypalDispatch({
-          type: 'resetOptions',
+          type: DISPATCH_ACTION.RESET_OPTIONS,
           value: {
             'client-id': paypalConfig!.clientId,
             currency: 'USD',
           },
         });
         paypalDispatch({
-          type: 'setLoadingStatus',
+          type: DISPATCH_ACTION.LOADING_STATUS,
           value: SCRIPT_LOADING_STATE.PENDING,
         });
       };

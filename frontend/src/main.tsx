@@ -27,6 +27,7 @@ import ProtectedRoute from './components/ProtectedRoute.tsx';
 import PlaceOrderPage from './pages/PlaceOrderPage.tsx';
 import OrderPage from './pages/OrderPage.tsx';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
+import OrderHistoryPage from './pages/OrderHistoryPage.tsx';
 //after installing tan stack query we dont need axios
 // import axios from 'axios'
 
@@ -52,6 +53,7 @@ const router = createBrowserRouter(
         <Route path="payment" element={<PaymentMethodPage />} />
         <Route path="placeorder" element={<PlaceOrderPage />} />
         <Route path="/order/:id" element={<OrderPage />} />
+        <Route path="/orderhistory" element={<OrderHistoryPage />} />
       </Route>
       {/* ... etc. */}
     </Route>
