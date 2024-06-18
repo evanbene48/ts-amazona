@@ -6,6 +6,31 @@ import { OrderModel } from '../models/orderModel';
 
 export const orderRouter = express.Router();
 // /api/prodcuts
+orderRouter.get(
+  // /api/orders/:id
+  '/:id',
+  isAuth,
+  asyncHandler(async (req: Request, res: Response) => {
+    const order = await OrderModel.findById(req.params.id);
+    if (order) {
+      const orderId = order.user!.toString();
+      // console.log(req.user._id);
+      // console.log(orderId);
+      // console.log(typeof req.user._id);
+      // console.log(typeof orderId);
+      if (orderId === req.user._id) {
+        res.json(order);
+        return;
+      } else {
+        res.status(404).json({ message: 'Order Not Found' });
+      }
+      // console.log('hehe');
+    } else {
+      res.status(404).json({ message: 'Order Not Found' });
+    }
+  })
+);
+
 orderRouter.post(
   '/',
   isAuth,
