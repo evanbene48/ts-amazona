@@ -1,18 +1,103 @@
-import { Card, Col, ListGroup, Row } from 'react-bootstrap';
+import { Button, Card, Col, ListGroup, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-import { useGetOrderDetailsQuery } from '../hooks/orderHooks';
+import {
+  useGetOrderDetailsQuery,
+  useGetPaypalClientIdQuery,
+  usePayOrderMutation,
+} from '../hooks/orderHooks';
 import { ApiError } from '../types/ApiError';
 // import { getError } from '../utils'
 import { getError } from '../utils/util';
+import { toast } from 'react-toastify';
+import {
+  PayPalButtons,
+  PayPalButtonsComponentProps,
+  SCRIPT_LOADING_STATE,
+  usePayPalScriptReducer,
+} from '@paypal/react-paypal-js';
+import { useEffect } from 'react';
 
 export default function OrderPage() {
   const params = useParams();
   const { id: orderId } = params;
 
-  const { data: order, isFetching, error } = useGetOrderDetailsQuery(orderId!);
+  //mutation
+  const {
+    data: order,
+    isFetching,
+    error,
+    refetch,
+  } = useGetOrderDetailsQuery(orderId!);
+
+  const { mutateAsync: payOrder, isPending: loadingPay } =
+    usePayOrderMutation();
+
+  const { data: paypalConfig } = useGetPaypalClientIdQuery();
+
+  //ini reducer untuk apa(?), ini untuk show status dari paypal website
+  const [{ isPending, isRejected }, paypalDispatch] = usePayPalScriptReducer();
+
+  const testPayHandler = async () => {
+    await payOrder({ orderId: orderId! });
+    refetch();
+    toast.success('Order is paid');
+  };
+
+  useEffect(() => {
+    if (paypalConfig && paypalConfig.clientId) {
+      const loadPaypalScript = async () => {
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': paypalConfig!.clientId,
+            currency: 'USD',
+          },
+        });
+        paypalDispatch({
+          type: 'setLoadingStatus',
+          value: SCRIPT_LOADING_STATE.PENDING,
+        });
+      };
+
+      loadPaypalScript();
+    }
+  }, [paypalConfig]);
+
+  const paypalbuttonTransactionProps: PayPalButtonsComponentProps = {
+    style: { layout: 'vertical' },
+    createOrder(data, actions) {
+      return actions.order
+        .create({
+          purchase_units: [
+            {
+              amount: {
+                value: order!.totalPrice.toString(),
+              },
+            },
+          ],
+        })
+        .then((orderID: string) => {
+          return orderID;
+        });
+    },
+    onApprove(data, actions) {
+      return actions.order!.capture().then(async (details) => {
+        try {
+          await payOrder({ orderId: orderId!, ...details });
+          refetch();
+          toast.success('Order is paid successfully');
+        } catch (err) {
+          toast.error(getError(err as ApiError));
+        }
+      });
+    },
+    onError: (err) => {
+      toast.error(getError(err as ApiError));
+    },
+  };
 
   return isFetching ? (
     <LoadingBox></LoadingBox>
@@ -93,6 +178,7 @@ export default function OrderPage() {
           <Card className="mb-3">
             <Card.Body>
               <Card.Title>Order Summary</Card.Title>
+
               <ListGroup variant="flush">
                 <ListGroup.Item>
                   <Row>
@@ -100,18 +186,21 @@ export default function OrderPage() {
                     <Col>${order.itemsPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
+
                 <ListGroup.Item>
                   <Row>
                     <Col>Shipping</Col>
                     <Col>${order.shippingPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
+
                 <ListGroup.Item>
                   <Row>
                     <Col>Tax</Col>
                     <Col>${order.taxPrice.toFixed(2)}</Col>
                   </Row>
                 </ListGroup.Item>
+
                 <ListGroup.Item>
                   <Row>
                     <Col>
@@ -122,6 +211,28 @@ export default function OrderPage() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
+                {!order.isPaid && (
+                  <ListGroup.Item>
+                    {isPending ? (
+                      <LoadingBox />
+                    ) : isRejected ? (
+                      <MessageBox variant="danger">
+                        Error in connecting to PayPal
+                      </MessageBox>
+                    ) : (
+                      // Paypal buttons
+                      <div>
+                        <PayPalButtons
+                          {...paypalbuttonTransactionProps}
+                        ></PayPalButtons>
+
+                        <Button onClick={testPayHandler}>Test Pay</Button>
+                      </div>
+                    )}
+                    {loadingPay && <LoadingBox></LoadingBox>}
+                  </ListGroup.Item>
+                )}
               </ListGroup>
             </Card.Body>
           </Card>
